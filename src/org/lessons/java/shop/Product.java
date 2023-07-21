@@ -1,5 +1,5 @@
 package org.lessons.java.shop;
-
+import java.util.Random;
 
 
 
@@ -24,54 +24,79 @@ che uno per avere il prezzo comprensivo di iva
 
  */
 
-import java.util.Random;
+
+
 
 public class Product {
 
     //CAMPI
-
+    private int code;
     private String name;
     private String description;
     private double price;
+
     private double vat;
-
-    private int code;
-
 
 
     //COSTRUTTORI
 
-
-    public Product() {
-
-
-    }
-
     public Product(String name, String description, double price, double vat) {
+        code = getCode();
         this.name = name;
         this.description = description;
         this.price = price;
         this.vat = vat;
     }
 
+
     //GET E SET
-    public int getCode()
-      {return code;}
 
-    public String getName()
-    {return name;}
-    public void setName(String name)
-    {this.name = name;}
+    public int getCode() {
+        Random randomGenerator = new Random();
+        code = randomGenerator.nextInt(1, 10000);
 
-    public String getDescription()
-    {return description;}
-    public void setDescription(String description)
-    {this.description = description;}
+        int counter = 0;
+        int codeCopy = code;
 
-    public double getPrice()
-    {return price;}
-    public void setPrice(double price)
-    {this.price = price;}
+        while (codeCopy > 0) {
+            codeCopy = codeCopy / 10;
+            counter++;
+
+        }
+
+
+        while (counter< 8) {
+            code = code * 10;
+            counter++;
+
+        }
+
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public double getVat() {
         return vat;
@@ -81,27 +106,13 @@ public class Product {
         this.vat = vat;
     }
 
+
     //METODI
 
-
-
-    public String getProductFullCode(String name)
+    public double getPriceWithVat()
     {
 
-        Random random = new Random();
-        int code = random.nextInt(1,9999999);
-
-
-        String fullCode = name+code;
-
-        return fullCode;
-
-    }
-
-    public double getPriceWithVat(double vatValue)
-    {
-
-        double priceWithVat = price + (price * vatValue);
+        double priceWithVat = price + (price*vat);
 
         return  priceWithVat;
 
@@ -111,7 +122,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "name='" + name + '\'' +
+                ", name='" + code + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", vat=" + vat +
