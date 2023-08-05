@@ -1,84 +1,41 @@
 package org.lessons.java.shop;
+
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.Random;
-
-
-
-//classe che gestisce i prodotti dello shop.
-/*I prodotti sono caratterizzati da:
-codice (numero intero)
-nome
-descrizione
-prezzo
-iva
-*/
-//usare livelli di accesso, costruttori, get e set, altri metodi in modo che:
-/*
--alla creazione di un nuovo prodotto il codice sia valorizzato con un numero random
--Il codice prodotto sia accessibile solo in lettura    get
--Gli altri attributi siano accessibili sia in lettura che in scrittura  set/get
--Il prodotto esponga sia un metodo per avere il prezzo base
-che uno per avere il prezzo comprensivo di iva
--Il prodotto esponga un metodo per avere il nome esteso, ottenuto concatenando codice-nome
- il codice deve avere un pad left di zeri per arrivare a 8 caratteri
- (ad esempio codice 91 diventa 00000091, mentre codice 123445567 resta come è)
-
- */
-
-
-
 
 public class Product {
 
-    //CAMPI
     private int code;
     private String name;
     private String description;
-    private double price;
+    private BigDecimal price;
+    private BigDecimal vat;
 
-    private double vat;
+    private HashSet<Category> category;
 
 
-    //COSTRUTTORI
-
-    public Product(String name, String description, double price, double vat) {
-        code = getCode();
+    public Product(String name, String description, BigDecimal price, BigDecimal vat) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.vat = vat;
+        this.code = generateRandomCode();
     }
 
-
-    //GET E SET
-
     public int getCode() {
-        Random randomGenerator = new Random();
-        code = randomGenerator.nextInt(1, 10000);
-
-        int counter = 0;
-        int codeCopy = code;
-
-        while (codeCopy > 0) {
-            codeCopy = codeCopy / 10;
-            counter++;
-
-        }
-
-
-        while (counter< 8) {
-            code = code * 10;
-            counter++;
-
-        }
-
         return code;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
@@ -90,43 +47,80 @@ public class Product {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public double getVat() {
+    public BigDecimal getVat() {
         return vat;
     }
 
-    public void setVat(double vat) {
+    public void setVat(BigDecimal vat) {
         this.vat = vat;
     }
 
 
-    //METODI
-
-    public double getPriceWithVat()
+    public BigDecimal getPriceWithVat()
     {
+        BigDecimal vatOnPrice = price.multiply(vat);
+        BigDecimal priceWithVat = price.add(vatOnPrice);
 
-        double priceWithVat = price + (price*vat);
 
-        return  priceWithVat;
+        return priceWithVat.setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    public HashSet<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(HashSet<Category> category) {
+        this.category = category;
+    }
+
+    private int generateRandomCode()
+    {
+        Random r = new Random();
+         return r.nextInt(1,100000);
+
+
+    }
+
+    private String getPaddedCode()
+    {
+        String paddedCoded = Integer.toString(code);
+
+        while(paddedCoded.length() < 8)
+        {
+            paddedCoded = "0"+paddedCoded;
+
+        }
+
+         return  paddedCoded;
 
     }
 
 
+   public String getFullName()
+   {
+
+       return getPaddedCode()+" "+name;
+
+
+   }
+
+
     @Override
     public String toString() {
-        return "Product{" +
-                ", name='" + code + name + '\'' +
+        return "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", vat=" + vat +
-                '}';
+                ", price with VAT= "+getPriceWithVat()+
+                ", code = "+getFullName();
     }
 }
 

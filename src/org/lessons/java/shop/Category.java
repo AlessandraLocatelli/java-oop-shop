@@ -1,15 +1,31 @@
 package org.lessons.java.shop;
 
-//BONUS 1:  Aggiungere una classe Categoria (con nome e descrizione)
-// e associare ad ogni Prodotto una categoria usando la composizione
 
 
 public class Category {
-    String name;
-    String description;
+
+private String name;
+private String description;
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
 
-
+    @Override
+    public String toString() {
+        return
+                "name='" + name + '\'' +
+                ", description='" + description + '\'';
+    }
 }

@@ -1,41 +1,44 @@
 package org.lessons.java.shop;
 
 
-/* create uno o più prodotti e testate tutte
-le funzionalità della classe (cioè tutti i metodi public)
-*/
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Product sunglasses = new Product("Sunglasses","Latest arrivals", 155.0, 0.15 );
-        Product hat = new Product("Summer Hat", "Latest arrivals", 49.99, 0.15);
-        Product iphone = new Product("iPhone","iPhone 15", 1029.0, 0.05 );
-        Product samsung = new Product("Samsung", "Samsung s23 Ultra", 1479.0, 0.05);
-
-        //leggiamo i valori tramite get e attribuiamone dei nuovi tramite set
-        sunglasses.getCode();
-        System.out.println(sunglasses);
-        System.out.println("Price with VAT: "+sunglasses.getPriceWithVat());
-
-        hat.setName("Hat");
-        System.out.println(hat);
-        System.out.println("Price with VAT: "+hat.getPriceWithVat());
-
-
-        iphone.setDescription("iPhone 14 Pro");
+        Product iphone = new Product("iPhone", "Apple", new BigDecimal("1200"), new BigDecimal("0.10"));
         System.out.println(iphone);
-        System.out.println("Price with VAT:"+iphone.getPriceWithVat());
-
-
-        samsung.setPrice(1299.0);
-        samsung.setVat(0.20);
+        Product samsung = new Product("Samsung Ultra S23", "Samsung", new BigDecimal("1350"), new BigDecimal("0.10"));
         System.out.println(samsung);
-        System.out.println("Price with VAT: "+samsung.getPriceWithVat());
+
+        Product tvSmart = new Product("TV", "Smart TV", new BigDecimal("249"), new BigDecimal("0.20"));
+        System.out.println(tvSmart);
+        Product tvPlus = new Product("TV", "TV Plus", new BigDecimal("349.99"), new BigDecimal("0.20"));
+        System.out.println(tvPlus);
+
+        Category digitalProduct = new Category("digital: ", "digital product");
+        Category specialOfferProduct = new Category("offer: ", "product in special offer");
 
 
+        HashSet<Category> categories = new HashSet<>();
+        categories.add(digitalProduct);
+        categories.add(specialOfferProduct);
+
+        iphone.setCategory(categories);
+        samsung.setCategory(categories);
+        tvSmart.setCategory(categories);
+        tvPlus.setCategory(categories);
+
+        for (Category c : categories)
+        {
+            System.out.println(c.getName()+" "+c.getDescription());
+
+        }
 
 
 
